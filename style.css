@@ -1,89 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 body {
     background: black;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
 }
 
 :root {
-    --circle-color-1: #fff;
-    --circle-color-2: #0ff;
-    --circle-color-3: #f100e5;
-    --circle-color-4: rgb(0, 194, 65);
-    --circle-size-1: 400px;
-    --circle-size-2: 390px;
-    --circle-size-3: 370px;
-    --circle-size-4: 380px;
+    --circle-color-1: #0ff;
+    --circle-color-2: #cf33ff;
+    --circle-color-3: #00a4a5;
+    --circle-size: 400px;
 }
 
 .ui-for-ai {
     position: absolute;
     top: 50%;
     left: 50%;
+    display: inline-block;
     transform: translate(-50%, -50%);
     filter: contrast(1.9);
-    animation: rotate 10s linear infinite;
+    animation: fade-in 3s forwards, morph-animation 10s infinite;
+    transition: all 3.5s;
+    max-width: 80vh;
+    max-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+   
 }
 
 .circle {
     position: absolute;
     inset: 0;
-    transform: translate(-50%, -50%);
     border: 1px solid;
-    animation: fade-in 1s forwards, morph-animation 3s linear infinite;
+    margin: 1rem;
+    animation: morph-animation 3s linear infinite, rotate 11s linear infinite;
     border-top-left-radius: 50%;
     border-bottom-left-radius: 40%;
     border-bottom-right-radius: 50%;
     border-top-right-radius: 40%;
+    transition: all 3.5s;
+    width: 100%;
+    width: 100%;
+    z-index: 1;
+    pointer-events: none;
 }
 
 .circle:before {
     content: '';
     position: absolute;
-    left: 50%;
-    top: 50%;
+    inset: 0;
     border-radius: 50%;
     width: 100%;
     height: 100%;
-    transform: translate(-50%, -50%);
     box-shadow: 0 0 10px 5px currentColor;
-    animation: fade-in 1s forwards, morph-animation 4s linear infinite;
+    animation: morph-animation 4s linear infinite reverse, rotate 10s linear infinite;
+    pointer-events: none;
 }
-
 
 .circle:nth-child(1),
 .circle:nth-child(1):before {
     color: var(--circle-color-1);
-    width: var(--circle-size-1);
-    height: var(--circle-size-1);
-    filter: blur(1px);
+    animation-direction: reverse;
+
 }
 
 .circle:nth-child(2),
 .circle:nth-child(2):before {
     color: var(--circle-color-2);
-    width: var(--circle-size-2);
-    height: var(--circle-size-2);
     animation-delay: 0.5s;
-    filter: blur(5px);
-
 }
 
 .circle:nth-child(3),
 .circle:nth-child(3):before {
     color: var(--circle-color-3);
-    width: var(--circle-size-3);
-    height: var(--circle-size-3);
     animation-delay: 1s;
     filter: blur(10px);
 }
 
-.circle:nth-child(4),
-.circle:nth-child(4):before {
-    color: var(--circle-color-4);
-    width: var(--circle-size-4);
-    height: var(--circle-size-4);
+
+.result-ai {
+    opacity: 0;
+    animation: fade-in 3s forwards;
+    color: white;
+    font-size: 2rem;
     animation-delay: 1.5s;
-    filter: blur(4px);
+    height: 100%;
+    width: 100%;
+    border-radius: 100%;
+    position: absolute;
 }
 
+.result-ai-content {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: 100%;
+    width: 100%;
+    animation: morph-animation 3s linear infinite;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 @keyframes morph-animation {
     0% {
@@ -108,6 +129,17 @@ body {
     }
 }
 
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
 @keyframes fade-in {
     0% {
         opacity: 0;
@@ -118,12 +150,19 @@ body {
     }
 }
 
-@keyframes rotate {
-    0% {
-        transform: translate(-50%, -50%) rotate(0deg);
-    }
+/* Status */
+[class="ui-for-ai"] {
+    height: var(--circle-size);
+    width: var(--circle-size);
+}
 
-    100% {
-        transform: translate(-50%, -50%) rotate(360deg);
-    }
+[class="ui-for-ai loading"] {
+    width: var(--circle-size);
+    height: var(--circle-size);
+    animation: rotate 3s linear infinite;
+}
+
+[class="ui-for-ai success"] {
+    width: 100%;
+    height: 100%;
 }
